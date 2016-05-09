@@ -8,12 +8,15 @@ Separate .R files contain logic to load data and conduct analysis.
 2. Load data by running `1-load-data.R` script
 3. Do data analysis in separate scripts
 4. Save output, visualization in `output` folder
+
 ## Conventions
+
 Recommended packages:
 * `data.table` for storing data in memory instead of `data.frame`
 * `dplyr` for data cleaning, manipulation and basic computations instead of `data.table` or `data.frame` syntax
 * d3.js-based visualization for interactivity instead of static plots. See a list of libraries on [htmlwidgets](http://www.htmlwidgets.org/showcase_leaflet.html)
-Recommended syntax:
+
+## Recommended syntax
 * Use type of variable as prefix, e.g. "dt" for data.table, "s" for string, "v" for vector etc.
 * Words in variable names are separated by dot (.)
 * Use `<-` instead of `=`
