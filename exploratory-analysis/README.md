@@ -16,7 +16,7 @@ Recommended packages:
 * `dplyr` for data cleaning, manipulation and basic computations instead of `data.table` or `data.frame` syntax
 * d3.js-based visualization for interactivity instead of static plots. See a list of libraries on [htmlwidgets](http://www.htmlwidgets.org/showcase_leaflet.html)
 
-Recommended syntax
+Recommended syntax:
 * Use type of variable as prefix, e.g. "dt" for data.table, "s" for string, "v" for vector etc.
 * Words in variable names are separated by dot (.)
 * Use `<-` instead of `=`
