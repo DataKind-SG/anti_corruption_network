@@ -53,11 +53,33 @@ MATCH (p:Project)
 WITH p
 MATCH (c:Company)
 WHERE p.tax_id_number = c.tax_id_number
-CREATE (c)-[:WINNER_OF]->(p)
+CREATE (c)-[:WINNER_OF {contract_number: p.contract_number, contract_sign_date: p.contract_sign_date, contract_status: p.contract_status, agreed_price_or_wages: toFloat(p.agreed_price_or_wages)}]->(p)
 ;
+
+
 
 -- View some companies and projects
 MATCH (c)-[wo:WINNER_OF]->(p) RETURN c, wo, p LIMIT 20;
+-- List top 20 companies based on number of bids won: this is too many companies to visualize
+MATCH (c)-[wo:WINNER_OF]->() 
+WITH c, COUNT(wo) as cnt_wo
+ORDER BY cnt_wo DESC
+LIMIT 20
+RETURN c, cnt_wo;
+-- List top 20 companies with highest total value won
+MATCH (c)-[wo:WINNER_OF]->() 
+WITH c, COUNT(wo) as cnt_wo, SUM(wo.agreed_price_or_wages) as sum_wages
+ORDER BY sum_wages DESC
+LIMIT 20 
+RETURN c, cnt_wo, sum_wages;
+-- View top companies with highest total value excluding companies with too high edge count (for visualization)
+MATCH (c)-[wo:WINNER_OF]->() 
+WITH c, COUNT(wo) as cnt_wo, SUM(wo.agreed_price_or_wages) as sum_wages
+ORDER BY sum_wages DESC
+LIMIT 20
+WHERE cnt_wo <= 100
+MATCH (c)-[wo:WINNER_OF]->(p) 
+RETURN c, wo, p;
 
 
 -- Some tax ID numbers may have multiple company names (bid_winner). Collect those as a list property of companies.
