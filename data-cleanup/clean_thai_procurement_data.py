@@ -24,7 +24,7 @@ def thai_english(sentence):
     """
     Translate a sentece to English.
     """
-    translator= Translator(to_lang="en")
+    translator= Translator(from_lang="th", to_lang="en")
     translation = translator.translate(sentence)
     print(translation)
     return translation
