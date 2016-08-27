@@ -144,6 +144,11 @@ def clean_col_13(input_data):
     """
     return input_data
 
+def find_relation_key(input_file):
+    data_thai = pd.read_csv(input_file)
+    data_thai = data_thai.groupby(['project_number','tax_id_number','bid_winner']).agg('count')
+    print(data_thai.head)
+    ## Findings are that there is many to many relation between project_number, tax_id_number and bid_winner
 
 if __name__ == '__main__':
     clean_columns('thai_procurement_data.csv', 'cleaned_thai_procurement_data.csv')
