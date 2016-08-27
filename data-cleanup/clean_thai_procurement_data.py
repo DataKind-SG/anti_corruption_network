@@ -1,11 +1,22 @@
 import csv
+<<<<<<< HEAD
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 import time
 from translate import Translator
+=======
+import datetime
+import pandas as pd
+
+def dedupe(input_file):
+    data_thai = pd.read_csv(input_file)
+    data_thai = data_thai.drop_duplicates()
+    data_thai.to_csv(input_file,index_label=False)
+>>>>>>> 6ca5ab485077b8b62848d09ce33d63d1a5c7461b
 
 def clean_columns(input_file, output_file):
+    dedupe(input_file)
     with open(input_file) as csvfile, open(output_file, 'wt') as writer:
         reader = csv.DictReader(csvfile)
         column_names = reader.fieldnames
@@ -72,6 +83,10 @@ def clean_col_3(input_data):
     Clean values in column: "tender_posted_date"
     Trello card: https://trello.com/c/C6b2Lw8i/4-column-tender-posted-date
     """
+
+    if input_data == '(null)':
+        return ''
+
     return input_data
 
 
@@ -88,6 +103,9 @@ def clean_col_5(input_data):
     Clean values in column: "reference_price"
     Trello card: https://trello.com/c/nkY3YByn/6-column-reference-price
     """
+    if input_data == '(null)':
+        return ''
+
     return input_data
 
 
@@ -144,6 +162,8 @@ def clean_col_12(input_data):
     Clean values in column: "contract_sign_date"
     Trello card: https://trello.com/c/UBxrfzr8/13-column-contract-sign-date
     """
+    if input_data == '(null)':
+        return ''
     return input_data
 
 
@@ -152,8 +172,17 @@ def clean_col_13(input_data):
     Clean values in column: "contract_status"
     Trello card: https://trello.com/c/jbpH6aup/14-column-contract-status
     """
+
+    import pandas as pd
+    mapping = pd.read_csv('contract_status_mapping.csv', header=None)
+    input_data = mapping[mapping[0]==input_data].iloc[0][1]
     return input_data
 
+def find_relation_key(input_file):
+    data_thai = pd.read_csv(input_file)
+    data_thai = data_thai.groupby(['project_number','tax_id_number','bid_winner']).agg('count')
+    print(data_thai.head)
+    ## Findings are that there is many to many relation between project_number, tax_id_number and bid_winner
 
 if __name__ == '__main__':
     clean_columns('thai_procurement_data.csv', 'cleaned_thai_procurement_data.csv')
