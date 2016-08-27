@@ -132,6 +132,8 @@ def clean_col_12(input_data):
     Clean values in column: "contract_sign_date"
     Trello card: https://trello.com/c/UBxrfzr8/13-column-contract-sign-date
     """
+    if input_data == '(null)':
+        return ''
     return input_data
 
 
