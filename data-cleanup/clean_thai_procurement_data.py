@@ -29,12 +29,12 @@ def thai_english(sentence):
     print(translation)
     return translation
 
-def create_dictionary(input_file, output_file):
+def create_dictionary(input_file, output_file, column_name):
     """
     Create dictionary of unique values in a column.
     """
     acd = pd.read_csv(input_file)
-    procurement_process_unique_values = acd['procurement_process'].unique()
+    procurement_process_unique_values = acd[column_name].unique()
     procurement_process_unique_dictionary={}
     for i in procurement_process_unique_values:
         procurement_process_unique_dictionary[i]=thai_english(i)
@@ -158,4 +158,4 @@ def clean_col_13(input_data):
 
 if __name__ == '__main__':
     #clean_columns('thai_procurement_data.csv', 'cleaned_thai_procurement_data.csv')
-    create_dictionary('thai_procurement_data.csv', 'dictionary_data.csv')
+    create_dictionary('thai_procurement_data.csv', 'dictionary_data.csv', 'procurement_process')
