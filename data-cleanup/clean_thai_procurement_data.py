@@ -1,12 +1,11 @@
 import csv
 import datetime
-import pandas
+import pandas as pd
 
 def dedupe(input_file):
     data_thai = pd.read_csv(input_file)
     data_thai = data_thai.drop_duplicates()
     data_thai.to_csv(input_file,index_label=False)
-
 
 def clean_columns(input_file, output_file):
     dedupe(input_file)
@@ -74,6 +73,9 @@ def clean_col_5(input_data):
     Clean values in column: "reference_price"
     Trello card: https://trello.com/c/nkY3YByn/6-column-reference-price
     """
+    if input_data == '(null)':
+        return ''
+
     return input_data
 
 
