@@ -1,4 +1,5 @@
 import csv
+import datetime
 
 
 def clean_columns(input_file, output_file):
@@ -46,6 +47,10 @@ def clean_col_3(input_data):
     Clean values in column: "tender_posted_date"
     Trello card: https://trello.com/c/C6b2Lw8i/4-column-tender-posted-date
     """
+
+    if input_data == '(null)':
+        return ''
+
     return input_data
 
 
