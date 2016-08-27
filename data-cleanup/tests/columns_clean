@@ -1,0 +1,54 @@
+def clean_col_5(input_data):
+## Column: reference_price: should be in $$ (BHT?)
+# input_data = 1 cell value 
+# Cleaning Action: 
+# 1. convert (null) to NaN
+# 2. Convert type - str to float
+# Range: 0 to 21656195031.0
+    """
+    Clean values in column: "project_name"
+    Trello card: https://trello.com/c/Cfq1kCk9/2-column-project-name
+    """
+    if input_data == "(null)":
+        input_data = np.nan # could also use float('NaN')
+
+    input_data = float(input_data)            
+    
+    return input_data
+    
+    
+
+
+
+
+def clean_col_9(input_data):
+## Column: agreed_price_or_wages: should be in $$ (BHT?)
+# input_data = 1 cell value 
+# No NaN or (null)
+# Cleaning Action: 
+# 1.NA
+# Range: 10 to 532307800000.0
+    """
+    Clean values in column: "project_name"
+    Trello card: https://trello.com/c/Cfq1kCk9/2-column-project-name
+    """
+    
+    return input_data
+    
+def clean_col_10(input_data):
+## Column: conditions_for_determination: has only (null) & _blank_
+# input_data = 1 cell value 
+# Cleaning Action: 
+# 1.(null) >> 1 | _blank_ >> 2
+# Range: 2?
+    """
+    Clean values in column: "project_name"
+    Trello card: https://trello.com/c/Cfq1kCk9/2-column-project-name
+    """
+    if input_data == "(null)":
+        input_data = 1 
+     
+    if np.isnan(input_data):
+        input_data = 2 
+        
+    return input_data
