@@ -1,19 +1,15 @@
 import csv
-<<<<<<< HEAD
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 import time
 from translate import Translator
-=======
 import datetime
-import pandas as pd
 
 def dedupe(input_file):
     data_thai = pd.read_csv(input_file)
     data_thai = data_thai.drop_duplicates()
     data_thai.to_csv(input_file,index_label=False)
->>>>>>> 6ca5ab485077b8b62848d09ce33d63d1a5c7461b
 
 def clean_columns(input_file, output_file):
     dedupe(input_file)
