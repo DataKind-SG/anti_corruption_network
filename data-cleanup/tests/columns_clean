@@ -1,3 +1,19 @@
+def clean_col_3(input_data):
+## Column: procuring_department: has a lot of Thai words
+# input_data = 1 cell value 
+# Cleaning Action: 
+# 1.(null) >> NaN
+# Range: unknown
+    """
+    Clean values in column: "project_name"
+    Trello card: https://trello.com/c/Cfq1kCk9/2-column-project-name
+    """
+    if input_data == "(null)":
+        input_data = np.nan 
+        
+    return input_data
+    
+    
 def clean_col_5(input_data):
 ## Column: reference_price: should be in $$ (BHT?)
 # input_data = 1 cell value 
