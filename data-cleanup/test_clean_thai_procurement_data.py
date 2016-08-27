@@ -1,4 +1,3 @@
-from datetime import datetime
 import clean_thai_procurement_data
 import pytest
 
@@ -46,13 +45,12 @@ def test_clean_col_4():
     assert False
 
 
-@pytest.mark.skip
 def test_clean_col_5():
     """
     Test the cleaning for column: "reference_price"
     """
-    assert clean_thai_procurement_data.clean_col_5('NA') == 'NA'
-    assert False
+    assert clean_thai_procurement_data.clean_col_5('(null)') == ''
+
 
 
 @pytest.mark.skip
