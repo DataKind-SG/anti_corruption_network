@@ -1,5 +1,9 @@
 import csv
-
+import pandas as pd
+import requests
+from bs4 import BeautifulSoup
+import time
+from translate import Translator
 
 def clean_columns(input_file, output_file):
     with open(input_file) as csvfile, open(output_file, 'wt') as writer:
@@ -16,6 +20,28 @@ def clean_columns(input_file, output_file):
                 cleaned_row.append(column_methods[i](row[column_names[i]]))
             writer.write(','.join(cleaned_row) + '\n')
 
+def thai_english(sentence):
+    """
+    Translate a sentece to English.
+    """
+    translator= Translator(to_lang="en")
+    translation = translator.translate(sentence)
+    print(translation)
+    return translation
+
+def create_dictionary(input_file, output_file):
+    """
+    Create dictionary of unique values in a column.
+    """
+    acd = pd.read_csv(input_file)
+    procurement_process_unique_values = acd['procurement_process'].unique()
+    procurement_process_unique_dictionary={}
+    for i in procurement_process_unique_values:
+        procurement_process_unique_dictionary[i]=thai_english(i)
+    with open(output_file, 'wt') as writer:
+        w = csv.DictWriter(writer, procurement_process_unique_dictionary.keys())
+        w.writeheader()
+        w.writerow(procurement_process_unique_dictionary)
 
 def clean_col_0(input_data):
     """
@@ -70,6 +96,7 @@ def clean_col_6(input_data):
     Clean values in column: "procurement_process"
     Trello card: https://trello.com/c/eD7tBBsE/7-column-procurement-process
     """
+
     return input_data
 
 
@@ -130,4 +157,5 @@ def clean_col_13(input_data):
 
 
 if __name__ == '__main__':
-    clean_columns('thai_procurement_data.csv', 'cleaned_thai_procurement_data.csv')
+    #clean_columns('thai_procurement_data.csv', 'cleaned_thai_procurement_data.csv')
+    create_dictionary('thai_procurement_data.csv', 'dictionary_data.csv')
