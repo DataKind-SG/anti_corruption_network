@@ -1,8 +1,15 @@
 import csv
 import datetime
+import pandas
+
+def dedupe(input_file):
+    data_thai = pd.read_csv(input_file)
+    data_thai = data_thai.drop_duplicates()
+    data_thai.to_csv(input_file,index_label=False)
 
 
 def clean_columns(input_file, output_file):
+    dedupe(input_file)
     with open(input_file) as csvfile, open(output_file, 'wt') as writer:
         reader = csv.DictReader(csvfile)
         column_names = reader.fieldnames
