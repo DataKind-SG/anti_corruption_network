@@ -126,6 +126,10 @@ def clean_col_13(input_data):
     Clean values in column: "contract_status"
     Trello card: https://trello.com/c/jbpH6aup/14-column-contract-status
     """
+
+    import pandas as pd
+    mapping = pd.read_csv('contract_status_mapping.csv', header=None)
+    input_data = mapping[mapping[0]==input_data].iloc[0][1]
     return input_data
 
 
