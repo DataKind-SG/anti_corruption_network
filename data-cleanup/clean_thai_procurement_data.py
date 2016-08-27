@@ -96,7 +96,6 @@ def clean_col_6(input_data):
     Clean values in column: "procurement_process"
     Trello card: https://trello.com/c/eD7tBBsE/7-column-procurement-process
     """
-
     return input_data
 
 
