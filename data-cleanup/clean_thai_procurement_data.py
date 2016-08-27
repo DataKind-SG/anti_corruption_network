@@ -157,5 +157,5 @@ def clean_col_13(input_data):
 
 
 if __name__ == '__main__':
-    #clean_columns('thai_procurement_data.csv', 'cleaned_thai_procurement_data.csv')
+    clean_columns('thai_procurement_data.csv', 'cleaned_thai_procurement_data.csv')
     create_dictionary('thai_procurement_data.csv', 'dictionary_data.csv', 'procurement_process')
