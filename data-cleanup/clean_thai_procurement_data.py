@@ -12,7 +12,6 @@ def dedupe(input_file):
     data_thai.to_csv(input_file,index_label=False)
 
 def clean_columns(input_file, output_file):
-    dedupe(input_file)
     with open(input_file) as csvfile, open(output_file, 'wt') as writer:
         reader = csv.DictReader(csvfile)
         column_names = reader.fieldnames
@@ -26,6 +25,9 @@ def clean_columns(input_file, output_file):
             for i in range(n_cols):
                 cleaned_row.append(column_methods[i](row[column_names[i]]))
             writer.write(','.join(cleaned_row) + '\n')
+    
+    ## Word - (null) needs to removed from all cols, before dedupe
+    dedupe(output_file)
 
 def thai_english(sentence):
     """
