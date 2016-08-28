@@ -182,6 +182,13 @@ def find_relation_key(input_file):
     print(data_thai.head)
     ## Findings are that there is many to many relation between project_number, tax_id_number and bid_winner
 
+def get_primary_key(input_file):
+    data_thai = pd.read_csv(input_file)
+    ## Primary Key - project_number,tax_id_number,contract_number,contract_status,contract_sign_date identifies each row in dataset uniquely
+    data_thai = data_thai.groupby(['project_number','tax_id_number','contract_number','contract_status','contract_sign_date']).agg('count')
+    print(data_thai.head)
+
+
 if __name__ == '__main__':
     clean_columns('thai_procurement_data.csv', 'cleaned_thai_procurement_data.csv')
     create_dictionary('thai_procurement_data.csv', 'dictionary_data.csv', 'procurement_process')
