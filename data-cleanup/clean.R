@@ -20,6 +20,7 @@ setkey(data_thai,project_number,tax_id_number,contract_number,contract_status,co
 # Fix the date fields
 data_thai$tender_posted_date <- as.Date(data_thai$tender_posted_date,"%Y-%m-%d")
 data_thai$contract_sign_date <- as.Date(data_thai$contract_sign_date,"%Y-%m-%d")
+data_thai$diff_contract_tender <- data_thai$contract_sign_date - data_thai$tender_posted_date
 
 # Fix the numeric fields
 data_thai$budget <- as.numeric(data_thai$budget)
@@ -36,4 +37,5 @@ data_thai$procuring_department <- as.factor(data_thai$procuring_department)
 
 # Write the cleaned file
 write.csv(data_thai,"../output/thai_procurement_data_cleaned.csv",row.names = F)
+
 
