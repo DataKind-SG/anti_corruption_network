@@ -29,6 +29,11 @@ data_thai$agreed_price_or_wages <- as.numeric(data_thai$agreed_price_or_wages)
 # Remove the blank column conditions_for_determination
 data_thai$conditions_for_determination <- NULL
 
+# Create factors for category variables
+data_thai$contract_status <- as.factor(data_thai$contract_status)
+data_thai$procurement_process <- as.factor(data_thai$procurement_process)
+data_thai$procuring_department <- as.factor(data_thai$procuring_department)
+
 # Write the cleaned file
 write.csv(data_thai,"../output/thai_procurement_data_cleaned.csv",row.names = F)
 
