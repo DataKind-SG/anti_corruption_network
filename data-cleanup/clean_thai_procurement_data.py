@@ -12,7 +12,7 @@ def dedupe(input_file):
     data_thai.to_csv(input_file,index_label=False)
 
 def clean_columns(input_file, output_file):
-    #dedupe(input_file)
+    dedupe(input_file)
     with open(input_file) as csvfile, open(output_file, 'wt') as writer:
         reader = csv.DictReader(csvfile)
         column_names = reader.fieldnames
@@ -26,6 +26,9 @@ def clean_columns(input_file, output_file):
             for i in range(n_cols):
                 cleaned_row.append(column_methods[i](row[column_names[i]]))
             writer.write(','.join(cleaned_row) + '\n')
+    
+    ## Word - (null) needs to removed from all cols, before dedupe
+    dedupe(output_file)
 
 def thai_english(sentence):
     """
@@ -184,6 +187,13 @@ def find_relation_key(input_file):
     data_thai = data_thai.groupby(['project_number','tax_id_number','bid_winner']).agg('count')
     print(data_thai.head)
     ## Findings are that there is many to many relation between project_number, tax_id_number and bid_winner
+
+def get_primary_key(input_file):
+    data_thai = pd.read_csv(input_file)
+    ## Primary Key - project_number,tax_id_number,contract_number,contract_status,contract_sign_date identifies each row in dataset uniquely
+    data_thai = data_thai.groupby(['project_number','tax_id_number','contract_number','contract_status','contract_sign_date']).agg('count')
+    print(data_thai.head)
+
 
 if __name__ == '__main__':
     create_dictionary('thai_procurement_data.csv', 'dictionary_data.csv', 'procurement_process')
