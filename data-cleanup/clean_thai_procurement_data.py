@@ -12,7 +12,7 @@ def dedupe(input_file):
     data_thai.to_csv(input_file,index_label=False)
 
 def clean_columns(input_file, output_file):
-    dedupe(input_file)
+    #dedupe(input_file)
     with open(input_file) as csvfile, open(output_file, 'wt') as writer:
         reader = csv.DictReader(csvfile)
         column_names = reader.fieldnames
@@ -20,7 +20,7 @@ def clean_columns(input_file, output_file):
 
         n_cols = len(column_names)
         column_methods = [globals()['clean_col_' + str(i)] for i in range(n_cols)]
-
+        
         for row in reader:
             cleaned_row = list()
             for i in range(n_cols):
@@ -46,7 +46,7 @@ def create_dictionary(input_file, output_file, column_name):
     for i in procurement_process_unique_values:
         procurement_process_unique_dictionary[i]=thai_english(i)
     with open(output_file, 'wt') as writer:
-        w = csv.DictWriter(writer, procurement_process_unique_dictionary.keys())
+        w = csv.DictWriter(writer, list(procurement_process_unique_dictionary.keys()))
         w.writeheader()
         w.writerow(procurement_process_unique_dictionary)
 
@@ -110,7 +110,12 @@ def clean_col_6(input_data):
     Clean values in column: "procurement_process"
     Trello card: https://trello.com/c/eD7tBBsE/7-column-procurement-process
     """
-    return input_data
+    with open('dictionary_data.csv', mode='r') as infile:
+        reader = csv.DictReader(infile)
+        for row in reader:
+            return row[input_data]
+
+    return row[input_data]
 
 
 def clean_col_7(input_data):
@@ -181,5 +186,5 @@ def find_relation_key(input_file):
     ## Findings are that there is many to many relation between project_number, tax_id_number and bid_winner
 
 if __name__ == '__main__':
-    clean_columns('thai_procurement_data.csv', 'cleaned_thai_procurement_data.csv')
     create_dictionary('thai_procurement_data.csv', 'dictionary_data.csv', 'procurement_process')
+    clean_columns('thai_procurement_data.csv', 'cleaned_thai_procurement_data.csv')
