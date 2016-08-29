@@ -5,6 +5,10 @@ from bs4 import BeautifulSoup
 import time
 from translate import Translator
 import datetime
+import detectlanguage
+from langdetect import detect
+
+detectlanguage.configuration.api_key = "YOUR API KEY"
 
 def dedupe(input_file):
     data_thai = pd.read_csv(input_file)
@@ -12,7 +16,7 @@ def dedupe(input_file):
     data_thai.to_csv(input_file,index_label=False)
 
 def clean_columns(input_file, output_file):
-    dedupe(input_file)
+    #dedupe(input_file)
     with open(input_file) as csvfile, open(output_file, 'wt') as writer:
         reader = csv.DictReader(csvfile)
         column_names = reader.fieldnames
@@ -28,13 +32,13 @@ def clean_columns(input_file, output_file):
             writer.write(','.join(cleaned_row) + '\n')
     
     ## Word - (null) needs to removed from all cols, before dedupe
-    dedupe(output_file)
+    #dedupe(output_file)
 
-def thai_english(sentence):
+def trans_to_english(sentence, language):
     """
     Translate a sentece to English.
     """
-    translator= Translator(from_lang="th", to_lang="en")
+    translator= Translator(from_lang=language, to_lang="en")
     translation = translator.translate(sentence)
     print(translation)
     return translation
@@ -44,14 +48,17 @@ def create_dictionary(input_file, output_file, column_name):
     Create dictionary of unique values in a column.
     """
     acd = pd.read_csv(input_file)
-    procurement_process_unique_values = acd[column_name].unique()
-    procurement_process_unique_dictionary={}
-    for i in procurement_process_unique_values:
-        procurement_process_unique_dictionary[i]=thai_english(i)
+    column_unique_values = acd[column_name].unique()
+    #Detect language
+    language = detect(" ".join(column_unique_values))
+    print("Language detected in column '"+column_name+"' is '"+language+"'.")
+    column_unique_dictionary={}
+    for i in column_unique_values:
+        column_unique_dictionary[i]=trans_to_english(i, language)
     with open(output_file, 'wt') as writer:
-        w = csv.DictWriter(writer, list(procurement_process_unique_dictionary.keys()))
+        w = csv.DictWriter(writer, list(column_unique_dictionary.keys()))
         w.writeheader()
-        w.writerow(procurement_process_unique_dictionary)
+        w.writerow(column_unique_dictionary)
 
 def clean_col_0(input_data):
     """
@@ -177,9 +184,9 @@ def clean_col_13(input_data):
     Trello card: https://trello.com/c/jbpH6aup/14-column-contract-status
     """
 
-    import pandas as pd
+    """import pandas as pd
     mapping = pd.read_csv('contract_status_mapping.csv', header=None)
-    input_data = mapping[mapping[0]==input_data].iloc[0][1]
+    input_data = mapping[mapping[0]==input_data].iloc[0][1]"""
     return input_data
 
 def find_relation_key(input_file):
