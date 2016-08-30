@@ -5,10 +5,7 @@ from bs4 import BeautifulSoup
 import time
 from translate import Translator
 import datetime
-import detectlanguage
 from langdetect import detect
-
-detectlanguage.configuration.api_key = "YOUR API KEY"
 
 def dedupe(input_file):
     data_thai = pd.read_csv(input_file)
